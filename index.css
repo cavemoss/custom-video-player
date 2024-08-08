@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap');
+
+.video-player {
+    --width: 400px;
+    --color: #9e95c060;
+    width: var(--width);
+    display: flex;
+    color: white;
+    caret-color: transparent;
+}
+
+.video-player::selection {
+    background: none;
+}
+
+.video-player video {
+    min-width: var(--width);
+}
+
+.flex-col {
+    min-width: var(--width);
+    position: relative;
+    left: calc(0px - var(--width));
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 200ms;
+}
+
+.flex-col:hover {
+    opacity: 1;
+}
+
+.flex-row {
+    flex: 1;
+    display: flex;
+}
+
+.main-controls {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.side-control {
+    width: var(--bar-width);
+}
+
+
+.main-controls .button {
+    background-color: #9e95c060;
+    border-radius: 50%;
+    --size: 60px;
+    width: var(--size);
+    height: var(--size);
+    backdrop-filter: blur(5px);
+    display: flex;
+}
+
+.main-controls .button img {
+    margin: auto;
+    position: relative;
+}
+
+.main-controls .button:hover {
+    transform: scale(1.1);
+}
+
+#play-btn {
+    --size: 85px
+}
+
+.bottom-control {
+    --bar-width: 26px;
+    --padding: 0 10px;
+    --gap: 10px;
+    height: var(--bar-width);
+    display: flex;
+    align-items: center;
+    padding: var(--gap);
+    gap: var(--gap);
+}
+
+.other-controls {
+    background-color: var(--color);
+    border-radius: 4px;
+    height: 100%;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    box-sizing: border-box;
+    gap: 4px;
+}
+
+.other-controls button {
+    padding: 0;
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+}
+
+.other-controls button img {
+    margin: auto;
+    height: 100%;
+    object-fit: contain;
+}
+
+.time-display {
+    background-color: var(--color);
+    border-radius: 4px;
+    height: 100%;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    padding: var(--padding);
+    backdrop-filter: blur(5px);
+    font-family: "Reddit Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff95;
+}
+
+.progress-bar {
+    --padding-adjust: 10px;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color);
+    border-radius: 4px;
+    padding: var(--padding);
+    backdrop-filter: blur(5px);
+}
+
+.progress-bar input {
+    width: 103%;
+    align-self: center;
+    height: var(--bar-width);
+    margin: 0;
+    opacity: 0;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.line {
+    --line-width: 10px;
+    min-height: var(--bar-width);
+    margin-top: calc(0px - var(--bar-width));
+    display: flex;
+    align-items: center;
+}
+
+#time-stamp-btn {
+    min-height: calc(20px - var(--bar-width));
+    margin-top: calc(0px - var(--bar-width) * 2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#time-stamp-btn button {
+    font-family: "Reddit Mono", monospace;
+    background-color: var(--color);
+    border: none;
+    color: #ffffff95;
+    border-radius: 3px;
+    backdrop-filter: blur(5px);
+}
+
+#time-stamp-btn button:hover {
+    box-shadow: 0 0 0 1.4px #ffffff95;
+}
+
+#time-stamp-btn button:active {
+    background-color:#ffffff95;
+}
+
+#loop-overlay {
+    min-height: var(--bar-width);
+    margin-top: calc(0px - var(--bar-width));
+    width: 100%;
+    z-index: 20;
+    display: none;
+    box-sizing: border-box;
+}
+
+#loop-borders {
+    --border-color: #ffea00;
+    box-shadow: 0 0 0 2px var(--border-color);
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: space-between;
+    align-self: center;
+}
+
+#loop-borders button {
+    height: 100%;
+    border: none;
+    width: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 2px var(--border-color);
+    background-color: #ffea0060;
+}
+
+#loop-control-left {
+    margin-left: -10px;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+}
+
+#loop-control-right {
+    margin-right: -10px;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+}
+
+.grey {
+    height: var(--line-width);
+    width: 100%;
+}
+
+#time-stamps {
+    height: var(--line-width);
+    width: 100%;
+    margin-top: calc(0px - var(--line-width));
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+#time-stamps div {
+    background: linear-gradient(to bottom, #00000080, #00000030, #00000080);
+    height: calc(var(--line-width) + 6px);
+    border-left: 1.4px solid #bab2ca;
+    border-right: 1.4px solid #bab2ca;
+}
+
+#progress-line {
+    height: 100%;
+    width: 0;
+    background-color: #fff645;
+    border-radius: 2px;
+    z-index: 6;
+}

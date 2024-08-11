@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Custom Video Player</title>
+</head>
+<body>
+    
+    <div class="video-player">
+        <video id="video"></video>
+
+        <div class="flex-col">
+            <div class="flex-row">
+                <div class="main-controls">
+                    <div class="button" id="prev">
+                        <img src="/static/icons/side.svg" style="left: -3px; transform: rotate(180deg);">
+                    </div>
+                    <div class="button" id="play-btn">
+                        <img src="/static/icons/paly.svg" style="left: 8px;">
+                    </div>
+                    <div class="button" id="next">
+                        <img src="/static/icons/side.svg" style="left: 3px;">
+                    </div>
+                </div>
+                <div class="side-control">
+
+                </div>
+            </div>       
+
+            <div class="bottom-control">
+                <div class="progress-bar">
+                    <input type="range" value="0" max="100" id="progress-bar">
+                    <div class="line">
+                        <div class="grey">
+                            <div id="progress-line">
+                                
+                            </div>
+                            <div id="time-stamps">
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div id="loop-overlay">
+                        <div id="loop-borders">
+                            <button id="loop-control-left"></button>
+                            <button id="loop-control-right"></button>
+                        </div>
+                    </div>
+                    <div id="time-stamp-btn">
+
+                    </div>
+                </div>
+                
+                <div class="time-display">
+                    <span id="current">0:00</span> / <span id="duration">0:00</span>
+                </div>
+
+                <div class="other-controls">
+                    <button id="mode-switch">
+                        <img src="/static/icons/loop.svg">
+                    </button>
+                    <button id="fullscreen">
+                        <img src="/static/icons/screen.svg">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading-vail">loading...</div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

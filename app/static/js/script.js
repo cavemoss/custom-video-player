@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const PROGRESS_BAR = document.getElementById('progress-bar')
     const PROGRESS_LINE = document.getElementById('progress-line')
 
+    const SPEED_CONTROL = document.getElementById('speed-control')
+
     const CURRENT_TIME = document.getElementById('current')
     const DURATION = document.getElementById('duration')
 
@@ -147,6 +149,11 @@ document.addEventListener('DOMContentLoaded', function() {
             VIDEO_PlEYER.style.setProperty('--width', videoWidth)    
         }
         resetLoop()
+    })
+
+    SPEED_CONTROL.addEventListener('input', function() {
+        console.log('yos')
+        VIDEO.playbackRate = SPEED_CONTROL.value
     })
 
     

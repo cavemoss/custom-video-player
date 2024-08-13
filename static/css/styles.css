@@ -12,7 +12,9 @@ body {
 
 .video-player {
     --width: 400px;
+    max-height: 90vh;
     --color: #565469;
+    --color-text: #cbcbcb;
     width: var(--width);
     display: flex;
     color: green;
@@ -27,6 +29,7 @@ body {
 
 .video-player video {
     min-width: var(--width);
+    background-color: #000;
 }
 
 .flex-col {
@@ -37,10 +40,6 @@ body {
     flex-direction: column;
     opacity: 0;
     transition: opacity 200ms;
-}
-
-.flex-col:hover {
-    opacity: 1;
 }
 
 .flex-row {
@@ -56,9 +55,29 @@ body {
 }
 
 .side-control {
+    position: absolute;
     width: var(--bar-width);
+    
+    padding: 10px;
+    display: flex;
+    gap: 10px;
 }
 
+.display {
+    background-color: var(--color);
+    border-radius: 4px;
+    height: 24px;
+    padding: 0 10px;
+    backdrop-filter: blur(5px);
+    font-family: "Reddit Mono", monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: var(--color-text);
+}
 
 .main-controls .button {
     background-color: #56546960;
@@ -84,9 +103,8 @@ body {
 }
 
 .bottom-control {
-    --color-text: #cbcbcb;
     --bar-width: 26px;
-    --padding: 0 10px;
+    --padding: 0 16px;
     --gap: 10px;
     height: var(--bar-width);
     display: flex;
@@ -141,7 +159,6 @@ body {
 }
 
 .progress-bar {
-    --padding-adjust: 10px;
     height: 100%;
     flex: 1;
     display: flex;
@@ -157,7 +174,7 @@ body {
     align-self: center;
     height: var(--bar-width);
     margin: 0;
-    opacity: 0;
+    opacity: 1;
     z-index: 10;
     box-sizing: border-box;
 }
@@ -220,22 +237,17 @@ body {
 #loop-borders button {
     height: 100%;
     border: none;
-    width: 5px;
     border-radius: 5px;
     box-shadow: 0 0 0 2px var(--border-color);
     background-color: #ffea0060;
 }
 
 #loop-control-left {
-    margin-left: -10px;
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
+    margin-left: -14px;
 }
 
 #loop-control-right {
-    margin-right: -10px;
-    border-top-right-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+    margin-right: -14px;
 }
 
 .grey {

@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let timestamps = { }
 
     let uploadType
+
     URL_INPUT.onchange = function() {
         uploadType = 'url'
         FILE_INPUT.disabled = true
@@ -49,9 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     USE_FILE.onclick = () => begin(URL.createObjectURL(FILE_INPUT.files[0]))
     USE_URL.onclick = () => begin(URL_INPUT.value)
 
-    VIDEO.addEventListener('timeupdate', function() {
-        NEW_TIME_STAMP.textContent = formatTime(VIDEO.currentTime)
-    })
+    VIDEO.addEventListener('timeupdate', function() { NEW_TIME_STAMP.textContent = formatTime(VIDEO.currentTime) })
 
     NEW_TIME_BTN.onclick = function() {
         const timeStampLabel = NEW_TIME_INPUT.value

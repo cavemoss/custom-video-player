@@ -3,12 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // ELEMENTS
 
     const VIDEO_PlEYER = document.querySelector('.video-player')
+    const ALL_CONTROLS = document.querySelector('.flex-col')
 
     const VIDEO = document.getElementById('video')
+    const TIME_STAMP_DISPLAY = document.getElementById('time-stamp-display')
     const PROGRESS_BAR = document.getElementById('progress-bar')
     const PROGRESS_LINE = document.getElementById('progress-line')
 
     const SPEED_CONTROL = document.getElementById('speed-control')
+    const SPEED_DISPLAY = document.getElementById('speed-display')
 
     const CURRENT_TIME = document.getElementById('current')
     const DURATION = document.getElementById('duration')
@@ -58,6 +61,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return pxNum * secPerPx
     }
 
+    let fadeOut
+
+    function fadeTimeout() {  
+        if (fadeOut) clearTimeout(fadeOut)
+        ALL_CONTROLS.style.opacity = 1 
+        fadeOut = setTimeout(function() { ALL_CONTROLS.style.opacity = 0 }, 1000)
+    }
+
     const limit = (value, max) => value >= 0 ? value <= max ? value : max : 0
 
 
@@ -86,6 +97,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         loopBorders.start = 0
         loopBorders.end = VIDEO.duration
+
+        ALL_CONTROLS.addEventListener('mousemove', fadeTimeout)
         
         for (let i = 0; i < timestamps.length; i++) {
 
@@ -101,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     VIDEO.oncanplay = function() {
+        PROGRESS_BAR.style.opacity = 0
         VIDEO_PlEYER.style.visibility = 'visible'
     }
     
@@ -143,20 +157,17 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     document.addEventListener('fullscreenchange', function() {
-        if (document.fullscreenElement) {
-            VIDEO_PlEYER.style.setProperty('--width', '100%')
-        } else { 
-            VIDEO_PlEYER.style.setProperty('--width', videoWidth)    
-        }
+        if (document.fullscreenElement) VIDEO_PlEYER.style.setProperty('--width', '100%')
+        else VIDEO_PlEYER.style.setProperty('--width', videoWidth)    
         resetLoop()
     })
 
     SPEED_CONTROL.addEventListener('input', function() {
-        console.log('yos')
         VIDEO.playbackRate = SPEED_CONTROL.value
+        SPEED_DISPLAY.innerText = VIDEO.playbackRate
     })
 
-    
+
     // SEEK FUNCTIONALITY
 
     VIDEO.addEventListener('timeupdate', function() {
@@ -171,8 +182,15 @@ document.addEventListener('DOMContentLoaded', function() {
         DURATION.textContent = formatTime(duration)
 
         if(loopOverlayState.opened) {
-            if (currentTime < loopBorders.start) VIDEO.currentTime = loopBorders.start
-            else if (currentTime > loopBorders.end) VIDEO.currentTime = loopBorders.start
+            if (currentTime < loopBorders.start) VIDEO.currentTime = loopBorders.start + 0.01
+            else if (currentTime > loopBorders.end) VIDEO.currentTime = loopBorders.start + 0.01
+        }
+
+        for (let i = 0; i < timestamps.length; i++) {
+            let nextTimestamp = timestamps[i+1]?.time ?? VIDEO.duration
+            if (VIDEO.currentTime >= timestamps[i].time && VIDEO.currentTime < nextTimestamp) {
+                TIME_STAMP_DISPLAY.innerText = timestamps[i].label; break
+            } 
         }
     })
 

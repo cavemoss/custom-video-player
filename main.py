@@ -23,8 +23,8 @@ def include_CORS():
     response.headers["Access-Control-Allow-Credentials"] = "true"
     return response
 
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
-templates = Jinja2Templates(directory="app/templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/new")
 async def _(request: Request):
@@ -36,7 +36,7 @@ async def _(request: Request):
 
 @app.post("/upload")
 async def _(video: UploadFile = File(...)):
-    path = f'app/static/media/{video.filename}'
+    path = f'static/media/{video.filename}'
     with open(path, "wb") as buffer:
         shutil.copyfileobj(video.file, buffer)
     return include_CORS()

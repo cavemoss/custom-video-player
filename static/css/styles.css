@@ -2,11 +2,12 @@
 
 html {
     height: 100%;
+    display: flex;
 }
 
 body {
-    display: flex;
-    height: 100%;
+    margin: auto;
+    flex: 1;
     background-color: #cccccc80;
 }
 
@@ -240,6 +241,7 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 0 2px var(--border-color);
     background-color: #ffea0060;
+    touch-action: none;
 }
 
 #loop-control-left {

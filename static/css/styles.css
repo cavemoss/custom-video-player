@@ -3,20 +3,21 @@
 html {
     height: 100%;
     display: flex;
+    overflow: hidden;
+    overscroll-behavior: none;
 }
 
 body {
     margin: auto;
-    flex: 1;
-    background-color: #cccccc80;
+    background-color: #CCCCCC60;
 }
 
 .video-player {
-    --width: 400px;
+    --width: 0;
     max-height: 90vh;
     --color: #565469;
     --color-text: #cbcbcb;
-    width: var(--width);
+    max-width: var(--width);
     display: flex;
     color: green;
     caret-color: transparent;
@@ -28,7 +29,7 @@ body {
     background: none;
 }
 
-.video-player #video {
+.video-player video {
     min-width: var(--width);
     background-color: #000;
 }
@@ -57,11 +58,12 @@ body {
 
 .side-control {
     position: absolute;
-    width: var(--bar-width);
-    
+    width: 100%;
     padding: 10px;
     display: flex;
     gap: 10px;
+    width: var(--width);
+    box-sizing: border-box;
 }
 
 .display {

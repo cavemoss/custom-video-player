@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const SPEED_CONTROL = document.getElementById('speed-control')
     const SPEED_DISPLAY = document.getElementById('speed-display')
 
+    const VOLUME_CONTROL = document.getElementById('volume-control')
+    const VOLUME_DISPLAY = document.getElementById('volume-display')
+
     const CURRENT_TIME = document.getElementById('current')
     const DURATION = document.getElementById('duration')
 
@@ -61,11 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         return pxNum * secPerPx
     }    
 
-    function resizeForWindow() {
-        if (window.innerWidth < 800) VIDEO_PlEYER.style.setProperty('--width', '100%')
-        else VIDEO_PlEYER.style.setProperty('--width', videoWidth)
-    }
-
     let fadeOut
 
     function fadeTimeout(event) { 
@@ -86,17 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
     source.src = decodeURIComponent(params.get('source'))
     source.type = 'video/mp4'
     VIDEO.appendChild(source)
-
-    let videoLoaded
     
     let timestamps = [ { time: 0, label: 'Начало' } ]
     params.forEach((value, key) => {
         if (key !== 'source') timestamps.push({ time: Number(value), label: key })
     })
 
-    let videoWidth = '800px'
-    VIDEO_PlEYER.style.setProperty('--width', videoWidth)
-    window.addEventListener('resize', resizeForWindow)
+    let videoWidth = 800
+    VIDEO_PlEYER.style.setProperty('--width', videoWidth + 'px')
 
     let loopOverlayState = { opened: false }
     let loopBorders = { start: null, end: null }
@@ -105,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         PROGRESS_BAR.style.opacity = 0
         VIDEO_PlEYER.style.visibility = 'visible'
-        resizeForWindow()
 
         loopBorders.start = 0
         loopBorders.end = VIDEO.duration
@@ -166,13 +160,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('fullscreenchange', function() {
         if (document.fullscreenElement) VIDEO_PlEYER.style.setProperty('--width', '100%')
-        else VIDEO_PlEYER.style.setProperty('--width', videoWidth)    
+        else VIDEO_PlEYER.style.setProperty('--width', videoWidth + 'px')    
         resetLoop()
     })
 
     SPEED_CONTROL.addEventListener('input', function() {
         VIDEO.playbackRate = SPEED_CONTROL.value
         SPEED_DISPLAY.innerText = VIDEO.playbackRate
+    })
+
+    VOLUME_CONTROL.addEventListener('input', function() {
+        VIDEO.volume = VOLUME_CONTROL.value
+        VOLUME_DISPLAY.innerText = 'Громкость:' + VIDEO.volume
     })
 
 
@@ -261,8 +260,61 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+
+    // LOOP CONTROLLER MOBILE
+
+    let initialX = { start: null, end: null }
+
+    function dragStartLeftMobile(event) {
+
+        var touch = event.touches[0]
+        var rect = LOOP_CONTROL_LEFT.getBoundingClientRect()
+
+        isDragging.start = true
+        startX.start = touch.clientX - rect.left;
+        initialX.start = rect.left
+    }
+
+    function dragStartRightMobile(event) {
+        
+        var touch = event.touches[0]
+        var rect = LOOP_CONTROL_RIGHT.getBoundingClientRect()
+
+        isDragging.end = true
+        startX.end = touch.clientX - rect.right;
+        initialX.end = rect.right
+    }
+
+    function dragMobile(event) {
+        event.preventDefault()
+        
+
+        if (isDragging.start) {
+            var touch = event.touches[0]
+            const margin = touch.clientX - startX.start - 11
+            const max = convertSecondsToMargin(loopBorders.end)
+            
+            LOOP_BORDERS.style.marginLeft = limit(margin, max) + 'px' 
+            loopBorders.start = convertMarginToSeconds(LOOP_BORDERS.style.marginLeft)
+        }
+
+        if (isDragging.end) {
+            var touch = event.touches[0]
+            const margin = LOOP_OVERLAY.clientWidth - touch.clientX - startX.end + 30
+            const max = LOOP_OVERLAY.clientWidth - convertSecondsToMargin(loopBorders.start)
+            
+            LOOP_BORDERS.style.marginRight = limit(margin, max) + 'px'
+            loopBorders.end = convertMarginToSeconds(LOOP_BORDERS.style.marginRight, true)
+        }
+    }
+
     LOOP_CONTROL_LEFT.onmousedown = dragStartLeft
     LOOP_CONTROL_RIGHT.onmousedown = dragStartRight
     document.onmousemove = drag
     document.onmouseup = dragStop
+
+    LOOP_CONTROL_LEFT.ontouchstart = dragStartLeftMobile
+    LOOP_CONTROL_RIGHT.ontouchstart = dragStartRightMobile
+    document.ontouchmove = dragMobile
+    document.ontouchend = dragStop
 })

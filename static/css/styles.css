@@ -28,7 +28,7 @@ body {
     background: none;
 }
 
-.video-player video {
+.video-player #video {
     min-width: var(--width);
     background-color: #000;
 }

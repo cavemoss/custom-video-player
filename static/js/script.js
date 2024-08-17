@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const VIDEO_PlEYER = document.querySelector('.video-player')
     const ALL_CONTROLS = document.querySelector('.flex-col')
-
     const VIDEO = document.getElementById('video')
+
     const TIME_STAMP_DISPLAY = document.getElementById('time-stamp-display')
     const PROGRESS_BAR = document.getElementById('progress-bar')
     const PROGRESS_LINE = document.getElementById('progress-line')
@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', function() {
     source.src = decodeURIComponent(params.get('source'))
     source.type = 'video/mp4'
     VIDEO.appendChild(source)
+
+    let videoLoaded
     
     let timestamps = [ { time: 0, label: 'Начало' } ]
     params.forEach((value, key) => {
@@ -101,29 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     VIDEO.addEventListener('loadedmetadata', function() {
 
-        const testInterval = setInterval(testSeekFunctionality, 100)
-        let failedTimes = 0
-
-        function testSeekFunctionality() {
-            VIDEO.currentTime = 1
-
-            if (VIDEO.currentTime === 1) 
-            {
-                clearInterval(testInterval)
-                VIDEO.currentTime = 0
-                PROGRESS_BAR.style.opacity = 0
-                VIDEO_PlEYER.style.visibility = 'visible'
-                resizeForWindow()
-            } 
-            else if (failedTimes > 10)    
-            {
-                clearInterval(testInterval)
-                window.location.reload()
-            }
-
-            console.log('nope')
-            failedTimes ++
-        }
+        PROGRESS_BAR.style.opacity = 0
+        VIDEO_PlEYER.style.visibility = 'visible'
+        resizeForWindow()
 
         loopBorders.start = 0
         loopBorders.end = VIDEO.duration
@@ -228,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const newTime = (PROGRESS_BAR.value / 100) * duration
         VIDEO.play()
         VIDEO.currentTime = newTime
-        console.log(VIDEO.currentTime, newTime)
     })
 
     

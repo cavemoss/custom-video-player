@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const DURATION = document.getElementById('duration')
 
     const PLAY_BTN = document.getElementById('play-btn')
+    const PLAY_BTN_IMG = document.querySelector('#play-btn img')
     const PREV_BTN = document.getElementById('prev')
     const NEXT_BTN = document.getElementById('next')
 
@@ -143,6 +144,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (VIDEO.paused || VIDEO.ended) VIDEO.play()
         else VIDEO.pause()
     })
+
+    VIDEO.onplay = () => PLAY_BTN_IMG.src = '/static/icons/pause.svg'
+    VIDEO.onpause = () => PLAY_BTN_IMG.src = '/static/icons/play.svg'
 
     PREV_BTN.addEventListener('click', function() {
         for (let i = 0; i < timestamps.length; i++) {

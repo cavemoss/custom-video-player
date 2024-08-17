@@ -103,16 +103,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
         VIDEO_PlEYER.addEventListener('mousemove', fadeTimeout)
         VIDEO_PlEYER.addEventListener('touchmove', fadeTimeout)
+        window.addEventListener('orientationchange', resetLoop)
         
         for (let i = 0; i < timestamps.length; i++) {
 
             const div = document.createElement('div')
             div.style.flex = (timestamps[i+1]?.time ?? VIDEO.duration) - timestamps[i].time
             TIME_STAMPS.appendChild(div)
+
+            function timeStampCallback() {
+                if (loopOverlayState.opened) {
+
+                    loopBorders.start = timestamps[i].time
+                    loopBorders.end = timestamps[i+1]?.time ?? VIDEO.duration
+
+                    LOOP_BORDERS.style.marginLeft = convertSecondsToMargin(loopBorders.start) + 'px'
+                    LOOP_BORDERS.style.marginRight = LOOP_OVERLAY.clientWidth - convertSecondsToMargin(loopBorders.end) + 'px'
+                }
+                VIDEO.currentTime = timestamps[i].time
+            }
     
             const btn = document.createElement('button')
             btn.textContent = timestamps[i].label
-            btn.addEventListener('click', () => VIDEO.currentTime = timestamps[i].time)
+            btn.addEventListener('click', timeStampCallback)
             TIME_STAMP_BTN.appendChild(btn)
         }
     })

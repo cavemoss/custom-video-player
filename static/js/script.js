@@ -13,9 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const SPEED_CONTROL = document.getElementById('speed-control')
     const SPEED_DISPLAY = document.getElementById('speed-display')
 
-    const VOLUME_CONTROL = document.getElementById('volume-control')
-    const VOLUME_DISPLAY = document.getElementById('volume-display')
-
     const CURRENT_TIME = document.getElementById('current')
     const DURATION = document.getElementById('duration')
 
@@ -69,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function fadeTimeout(event) { 
         if (fadeOut) clearTimeout(fadeOut)
         ALL_CONTROLS.style.opacity = 1 
-        fadeOut = setTimeout(function() { ALL_CONTROLS.style.opacity = 0 }, 1000)
+        fadeOut = setTimeout(function() { ALL_CONTROLS.style.opacity = 0 }, 3000)
     }
 
     const limit = (value, max) => value >= 0 ? value <= max ? value : max : 0
@@ -168,12 +165,6 @@ document.addEventListener('DOMContentLoaded', function() {
         VIDEO.playbackRate = SPEED_CONTROL.value
         SPEED_DISPLAY.innerText = VIDEO.playbackRate
     })
-
-    VOLUME_CONTROL.addEventListener('input', function() {
-        VIDEO.volume = VOLUME_CONTROL.value
-        VOLUME_DISPLAY.innerText = 'Громкость:' + VIDEO.volume
-    })
-
 
     // SEEK FUNCTIONALITY
 

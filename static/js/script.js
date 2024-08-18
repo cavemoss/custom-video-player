@@ -83,9 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
     source.type = 'video/mp4'
     VIDEO.appendChild(source)
     
-    let timestamps = [ { time: 0, label: 'Начало' } ]
+    let timestamps = [ { time: 0, label: 'start-to-remove' } ]
     params.forEach((value, key) => {
-        if (key !== 'source') timestamps.push({ time: Number(value), label: key })
+        if (key !== 'source') {
+            if (value === '0') timestamps[0].label = key
+            else timestamps.push({ time: Number(value), label: key })
+        }
     })
 
     let videoWidth = 800
@@ -111,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const div = document.createElement('div')
             div.style.flex = (timestamps[i+1]?.time ?? VIDEO.duration) - timestamps[i].time
             TIME_STAMPS.appendChild(div)
+
+            if(timestamps[i].label === 'start-to-remove') { continue }
 
             function timeStampCallback() {
                 if (loopOverlayState.opened) {

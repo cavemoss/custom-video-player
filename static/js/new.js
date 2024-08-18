@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function useUrl() {
         URL_OUTPUT.innerHTML = 'loading...'
         let originalUrl = URL_INPUT.value
-        let videoUrl = `http://185.204.3.17:8000/play?source=${encodeURIComponent(originalUrl)}`
+        let videoUrl = `http://localhost:8000/play?source=${encodeURIComponent(originalUrl)}`
         for (let [key, value] of Object.entries(timestamps)) videoUrl += `&${key}=${value}`
         URL_OUTPUT.href = videoUrl
         URL_OUTPUT.innerHTML = videoUrl
@@ -93,8 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
         URL_OUTPUT.innerHTML = 'loading...'
         let formData = new FormData()
         formData.append('video', FILE_INPUT.files[0])
-        await fetch('http://185.204.3.17:8000/upload', { method: 'POST', body: formData })
-        let videoUrl = `http://185.204.3.17:8000/play?source=video?url=static/media/${FILE_INPUT.files[0].name}`
+        await fetch('http://localhost:8000/upload', { method: 'POST', body: formData })
+        let videoUrl = `http://localhost:8000/play?source=video?url=static/media/${FILE_INPUT.files[0].name}`
         for (let [key, value] of Object.entries(timestamps)) videoUrl += `&${key}=${value}`
         URL_OUTPUT.href = videoUrl
         URL_OUTPUT.innerHTML = videoUrl
